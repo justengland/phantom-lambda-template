@@ -1,7 +1,5 @@
 # phantom-lambda-template
 
-![node-lambda-template](../master/node-lambda-template.png?raw=true)
-
 The bare minimum for a [phantomjs](http://phantomjs.org/)app running on [Amazon Lambda](http://aws.amazon.com/lambda/).
 Based off of [node-lambda-template](https://github.com/rebelmail/node-lambda-template)
 
