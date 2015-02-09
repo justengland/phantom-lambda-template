@@ -1,4 +1,4 @@
-# node-lambda-template
+# phantom-lambda-template
 
 ![node-lambda-template](../master/node-lambda-template.png?raw=true)
 
@@ -31,5 +31,8 @@ git clone https://github.com/justengland/phantom-lambda-template.git
 cd node-lambda-template
 npm install
 ```
+
+## Package
+zip -r phantom.zip . --exclude=*.DS_Store* --exclude=*.git* --exclude=*node_modules* --exclude=*.idea*
 
 
