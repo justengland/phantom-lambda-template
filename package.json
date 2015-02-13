@@ -8,12 +8,21 @@
     "url": "git://github.com/rebelmail/node-lambda-template.git"
   },
   "author": "motdotla",
-  "license": "ISC",
+  "license": "isc",
   "bugs": {
     "url": "https://github.com/rebelmail/node-lambda-template/issues"
   },
   "homepage": "https://github.com/rebelmail/node-lambda-template",
   "dependencies": {
     "node-lambda": "0.1.5"
-  }
+  },
+  "devDependencies": {},
+  "scripts": {
+    "run": "node run"
+  },
+  "keywords": [
+    "phantomjs",
+    "aws",
+    "lambda"
+  ]
 }

@@ -9,32 +9,42 @@ exports.handler = function( event, context ) {
       childProcess = require('child_process');
 
   // Get the path to the phantomjs application
-  function getPhantomFileName() {
-    return path.join(__dirname, 'phantomjs')
+  function getPhantomFileName(callback) {
+    var nodeModulesPath = path.join(__dirname, 'node_modules');
+    fs.exists(nodeModulesPath, function(exists) {
+      if (exists) {
+        callback(path.join(__dirname, 'node_modules','phantomjs', 'bin', 'phantomjs'));
+      }
+      else {
+        callback(path.join(__dirname, 'phantomjs'));
+      }
+    });
   }
 
   // Call the phantomjs script
   function callPhantom(callback) {
-    var binPath = path.join(__dirname, 'phantomjs');
-    var childArgs = [
-      path.join(__dirname, 'phantomjs-script.js'),
-      'some other argument (passed to phantomjs script)'
-    ];
-
-    console.log('<<<<---------  Phantom Started  '+ binPath +'--------->>>>');
-    var ls = childProcess.execFile(binPath, childArgs);
-
-    ls.stdout.on('data', function (data) {    // register one or more handlers
-      console.log(data);
-    });
-
-    ls.stderr.on('data', function (data) {
-      console.log('stderr  ---:> ' + data);
-    });
-
-    ls.on('exit', function (code) {
-      console.log('child process exited with code ' + code);
-      callback();
+    getPhantomFileName(function(phatomJsPath) {
+      
+      var childArgs = [
+        path.join(__dirname, 'phantomjs-script.js')
+      ];
+  
+      console.log('Calling phantom: ', phatomJsPath, childArgs);
+      var ls = childProcess.execFile(phatomJsPath, childArgs);
+  
+      ls.stdout.on('data', function (data) {    // register one or more handlers
+        console.log(data);
+      });
+  
+      ls.stderr.on('data', function (data) {
+        console.log('phantom error  ---:> ' + data);
+      });
+  
+      ls.on('exit', function (code) {
+        console.log('child process exited with code ' + code);
+        callback();
+      });
+      
     });
   }
 

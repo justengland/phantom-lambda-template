@@ -31,6 +31,16 @@ npm install
 ```
 
 ## Package
-zip -r phantom.zip . --exclude=*.DS_Store* --exclude=*.git* --exclude=*node_modules* --exclude=*.idea*
+zip -r phantom.zip . --exclude=*.DS_Store* --exclude=*.git* --exclude=*node_modules* --exclude=*.idea* --exclude=*.c9*
+
+
+## Install Phantomjs
+npm install phantomjs --phantomjs_cdnurl=http://cnpmjs.org/downloads
+
+
+## Ideas
+1. install phantom locally using NPM - this will install the phantomjs version for your OS into node_modules
+2. Package for Lambda without the node_modules, then the node script will read from the disk, 
+    if node_modules does not exists then read it from the root of the package which will be setup for lambda
 
 
