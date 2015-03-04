@@ -3,6 +3,8 @@
 The bare minimum for a [phantomjs](http://phantomjs.org/)app running on [Amazon Lambda](http://aws.amazon.com/lambda/).
 Based off of [node-lambda-template](https://github.com/rebelmail/node-lambda-template)
 
+* Keep in mind that aws-lambda runs on Aws Linux, you will have to make sure your package is compiled for Aws-Linux
+
 The phantomjs program has been build to for Linux, https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.8-linux-x86_64.tar.bz2
 If you are going to run this locally you will have to swap out phantomjs with the assembly built for your OS.
 
