@@ -1,6 +1,6 @@
 {
   "name": "phantom-lambda-template",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "The bare minimum for a phantomjs app running on Amazon Lambda.",
   "main": "index.js",
   "repository": {
@@ -13,12 +13,16 @@
     "url": "https://github.com/rebelmail/node-lambda-template/issues"
   },
   "homepage": "https://github.com/rebelmail/node-lambda-template",
-  "dependencies": {
-    "node-lambda": "0.1.5"
+  "dependencies": {},
+  "devDependencies": {
+    "aws-sdk": "^2.1.39",
+    "node-lambda": "git+https://github.com/christianklotz/node-lambda.git",
+    "phantomjs": "^1.9.17"
   },
-  "devDependencies": {},
   "scripts": {
-    "run": "node run"
+    "setup": "node-lambda setup",
+    "start": "node-lambda run",
+    "deploy": "node-lambda deploy"
   },
   "keywords": [
     "phantomjs",

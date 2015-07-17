@@ -1,48 +1,35 @@
-# phantom-lambda-template
+# PhantomJS Lambda Template
 
-The bare minimum for a [phantomjs](http://phantomjs.org/)app running on [Amazon Lambda](http://aws.amazon.com/lambda/).
-Based off of [node-lambda-template](https://github.com/rebelmail/node-lambda-template)
+A [PhantomJS](http://phantomjs.org/) node.js app for [Amazon Lambda](http://aws.amazon.com/lambda/). Based on [node-lambda-template](https://github.com/rebelmail/node-lambda-template) using [node-lambda](https://github.com/rebelmail/node-lambda). The app includes a PhantomJS binary (`phantomjs`) compiled for AWS Linux (https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.8-linux-x86_64.tar.bz2).
 
-* Keep in mind that aws-lambda runs on Aws Linux, you will have to make sure your package is compiled for Aws-Linux
+> **Note:** Since there was [an issue](https://github.com/rebelmail/node-lambda/issues/19) with the deployment script this template uses a [node-lambda fork](https://github.com/christianklotz/node-lambda) until the [pull request](https://github.com/rebelmail/node-lambda/pull/20) has been accepted or an alternative solution has been found.
 
-The phantomjs program has been build to for Linux, https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.8-linux-x86_64.tar.bz2
-If you are going to run this locally you will have to swap out phantomjs with the assembly built for your OS.
 
-It uses [node-lambda](https://github.com/rebelmail/node-lambda) under the hood to locally run and also deploy your node.js Amazon Lambda application.
+## Setup
 
-```
-./node_modules/.bin/node-lambda run
+Install dependencies using npm. It'll install the AWS SDK as well as PhantomJS on the development machine.
+
+```shell
+npm install
 ```
 
 ## Usage
 
-There are 3 available commands, make sure to use the appropriate phantomjs for your OS. 
-
-```
-./node_modules/.bin/node-lambda setup
-./node_modules/.bin/node-lambda run
-./node_modules/.bin/node-lambda deploy
+To run the function locally execute the following command.
+```shell
+npm run start
 ```
 
-## Install
+Run the setup command to generate the environment file with the configuration used for the Amazon Lambda function. Edit the resulting `.env.` file with your custom settings.
 
-```
-git clone https://github.com/justengland/phantom-lambda-template.git
-cd node-lambda-template
-npm install
+```shell
+npm run setup
 ```
 
-## Package
-zip -r phantom.zip . --exclude=*.DS_Store* --exclude=*.git* --exclude=*node_modules* --exclude=*.idea* --exclude=*.c9*
+Run the following command to deploy the app to Amazon Lambda. Providing the environment param is optional. If provided the function deployed to Amazon Lambda will use the environment as a prefix in the function name, e.g. FunctionName-production-version.
 
+```shell
+npm run deploy -- --environment {environment}
+```
 
-## Install Phantomjs
-npm install phantomjs --phantomjs_cdnurl=http://cnpmjs.org/downloads
-
-
-## Ideas
-1. install phantom locally using NPM - this will install the phantomjs version for your OS into node_modules
-2. Package for Lambda without the node_modules, then the node script will read from the disk, 
-    if node_modules does not exists then read it from the root of the package which will be setup for lambda
-
-
+> **Note:** npm version 2.x or newer required to pass arguments to the scripts using `-- args`
