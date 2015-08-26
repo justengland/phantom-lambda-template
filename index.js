@@ -23,14 +23,14 @@ exports.handler = function( event, context ) {
 
   // Call the phantomjs script
   function callPhantom(callback) {
-    getPhantomFileName(function(phatomJsPath) {
+    getPhantomFileName(function(phantomJsPath) {
       
       var childArgs = [
         path.join(__dirname, 'phantomjs-script.js')
       ];
   
-      console.log('Calling phantom: ', phatomJsPath, childArgs);
-      var ls = childProcess.execFile(phatomJsPath, childArgs);
+      console.log('Calling phantom: ', phantomJsPath, childArgs);
+      var ls = childProcess.execFile(phantomJsPath, childArgs);
   
       ls.stdout.on('data', function (data) {    // register one or more handlers
         console.log(data);
