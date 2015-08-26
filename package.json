@@ -16,7 +16,7 @@
   "dependencies": {},
   "devDependencies": {
     "aws-sdk": "^2.1.39",
-    "node-lambda": "git+https://github.com/christianklotz/node-lambda.git",
+    "node-lambda": "^0.6.1",
     "phantomjs": "^1.9.17"
   },
   "scripts": {
