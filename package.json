@@ -17,12 +17,14 @@
   "devDependencies": {
     "aws-sdk": "^2.1.39",
     "node-lambda": "^0.6.1",
-    "phantomjs": "^1.9.17"
+    "phantomjs": "^1.9.17",
+    "mocha": "^2.3.2"
   },
   "scripts": {
     "setup": "node-lambda setup",
     "start": "node-lambda run",
-    "deploy": "node-lambda deploy"
+    "deploy": "node-lambda deploy",
+    "test": "mocha test/*"
   },
   "keywords": [
     "phantomjs",
