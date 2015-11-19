@@ -23,4 +23,10 @@ cd phantomjs-1.9.7/
 # Once it's finished, retrieve the build product (run from your local machine):
 scp ec2-user@your-ec2-box.amazonaws.com:phantomjs-1.9.7/bin/phantomjs .
 
+# Since this AMI includes a newer version of libicudata than Amazon Lambda,
+# we need to include those libraries too.
+# This won't be necessary once
+# https://github.com/ariya/phantomjs/issues/12948 is fixed.
+scp ec2-user@your-ec2-box.amazonaws.com:"/usr/lib64/libicu*50" .
+
 # That's it! Don't forget to terminate the EC2 instance.
