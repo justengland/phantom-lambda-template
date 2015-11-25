@@ -30,3 +30,7 @@ npm run deploy
 ```
 
 > **Note:** npm version 2.x or newer required to pass arguments to the scripts using `-- args`
+
+## Building phantomjs
+
+If you want to use a different version of phantomjs or have trouble with the included version, follow the instructions in [build-phantomjs.sh](build-phantomjs.sh).

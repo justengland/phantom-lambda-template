@@ -29,6 +29,17 @@ exports.handler = function( event, context ) {
         path.join(__dirname, 'phantomjs-script.js')
       ];
   
+      // This option causes the shared library loader to output
+      // useful information if phantomjs can't start.
+      process.env['LD_WARN'] = 'true';
+
+      // Tell the loader to look in this script's directory for
+      // the shared libraries that Phantom.js 2.0.0 needs directly.
+      // This shouldn't be necessary once
+      // https://github.com/ariya/phantomjs/issues/12948
+      // is fixed.
+      process.env['LD_LIBRARY_PATH'] = __dirname;
+
       console.log('Calling phantom: ', phantomJsPath, childArgs);
       var ls = childProcess.execFile(phantomJsPath, childArgs);
   
