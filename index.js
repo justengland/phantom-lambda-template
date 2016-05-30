@@ -67,7 +67,7 @@ exports.handler = function( event, context ) {
 
   function generateTmpScript() {
     // when running locally context.json might not contain invokeid
-    let filename = path.join(os.tmpdir(), (context.invokeid || Date.now()) + '.js')
+    var filename = path.join(os.tmpdir(), (context.invokeid || Date.now()) + '.js')
     fs.writeFileSync(filename, event.code)
 
     return filename
