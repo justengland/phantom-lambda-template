@@ -37,3 +37,33 @@ npm run deploy
 ## Building phantomjs
 
 If you want to use a different version of phantomjs or have trouble with the included version, follow the instructions in [build-phantomjs.sh](build-phantomjs.sh).
+
+## dynamic phantomjs script
+
+You can send a custom phantomjs script to the lambda function during invocation:
+
+```javascript
+'use strict'
+
+const aws = require('aws-sdk')
+aws.config.update({ region: 'us-east-1' })
+
+const lambda = new aws.Lambda()
+
+var params = {
+    FunctionName: '<your functionname>-<environment>',
+    InvocationType: 'RequestResponse',
+    LogType: 'Tail',
+
+    // this code will run instead of phantomjs-script
+    Payload: JSON.stringify({ code : 'console.log(\'123\')' })
+}
+lambda.invoke(params, function(err, data) {
+    if (err) {
+        return console.error(err, err.stack) // an error occurred
+    }
+    
+    console.log(new Buffer(data.LogResult, 'base64').toString()) // successful response
+})
+
+```
