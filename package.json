@@ -16,9 +16,9 @@
   "dependencies": {},
   "devDependencies": {
     "aws-sdk": "^2.1.39",
-    "node-lambda": "^0.6.1",
-    "phantomjs": "^1.9.17",
-    "mocha": "^2.3.2"
+    "mocha": "^2.3.2",
+    "node-lambda": "^0.8.5",
+    "phantomjs": "^1.9.17"
   },
   "scripts": {
     "setup": "node-lambda setup",
