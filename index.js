@@ -4,6 +4,7 @@ exports.handler = function( event, context ) {
 
   var path = require('path'),
       fs = require('fs'),
+      os = require('os'),
       http = require('http'),
       phantomDownloadPath = "https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.8-linux-x86_64-symbols.tar.bz2",
       childProcess = require('child_process');
@@ -28,7 +29,12 @@ exports.handler = function( event, context ) {
       var childArgs = [
         path.join(__dirname, 'phantomjs-script.js')
       ];
-  
+      
+      // replace default phantomjs script with something the invoker sent
+      if (event && event.code) {
+        childArgs[0] = generateTmpScript()
+      }
+
       // This option causes the shared library loader to output
       // useful information if phantomjs can't start.
       process.env['LD_WARN'] = 'true';
@@ -57,6 +63,14 @@ exports.handler = function( event, context ) {
       });
       
     });
+  }
+
+  function generateTmpScript() {
+    // when running locally context.json might not contain invokeid
+    var filename = path.join(os.tmpdir(), (context.invokeid || Date.now()) + '.js')
+    fs.writeFileSync(filename, event.code)
+
+    return filename
   }
 
   // Execute the phantom call and exit
