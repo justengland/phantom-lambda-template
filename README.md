@@ -1,9 +1,9 @@
-### Changes Coming
-The biggest problem with this project and lambda in general is the fact that AWS does not allow us to run NPM on an Amazon Linux machine as a part of the packaging process. Previously lambda's were limited to a single minute of execution time, they have recently changed the execution time to 5 minutes, this changes the game. It now is possible to run a lambda function to create a lambda package that will create a lambda package using NPM. This way, instead of building phantomjs locally, we can now just use NPM to install phantomjs.
-
 # PhantomJS Lambda Template
 
 A [PhantomJS](http://phantomjs.org/) node.js app for [Amazon Lambda](http://aws.amazon.com/lambda/). Based on [node-lambda-template](https://github.com/rebelmail/node-lambda-template) using [node-lambda](https://github.com/rebelmail/node-lambda). The app includes a PhantomJS binary (`phantomjs`) compiled for AWS Linux (https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.8-linux-x86_64.tar.bz2).
+
+## Try my new NPM Module! (phantomjs-lambda-pack)[https://github.com/justengland/phantomjs-lambda-pack]
+Its not done, but it works and you can see how it works. I do need to clean up the local environment, currently it relys on the phantomjs being in the path, and I need to better support versioning of phantomjs.
 
 ## Setup
 
