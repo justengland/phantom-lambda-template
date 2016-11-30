@@ -6,15 +6,14 @@ exports.handler = function( event, context ) {
       fs = require('fs'),
       os = require('os'),
       http = require('http'),
-      phantomDownloadPath = "https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.8-linux-x86_64-symbols.tar.bz2",
       childProcess = require('child_process');
 
   // Get the path to the phantomjs application
   function getPhantomFileName(callback) {
-    var nodeModulesPath = path.join(__dirname, 'node_modules');
+    var nodeModulesPath = path.join(__dirname, 'node_modules', 'phantomjs-prebuilt');
     fs.exists(nodeModulesPath, function(exists) {
       if (exists) {
-        callback(path.join(__dirname, 'node_modules','phantomjs', 'bin', 'phantomjs'));
+        callback(path.join(__dirname, 'node_modules','phantomjs-prebuilt', 'bin', 'phantomjs'));
       }
       else {
         callback(path.join(__dirname, 'phantomjs'));
@@ -25,11 +24,11 @@ exports.handler = function( event, context ) {
   // Call the phantomjs script
   function callPhantom(callback) {
     getPhantomFileName(function(phantomJsPath) {
-      
+
       var childArgs = [
         path.join(__dirname, 'phantomjs-script.js')
       ];
-      
+
       // replace default phantomjs script with something the invoker sent
       if (event && event.code) {
         childArgs[0] = generateTmpScript()
@@ -48,20 +47,20 @@ exports.handler = function( event, context ) {
 
       console.log('Calling phantom: ', phantomJsPath, childArgs);
       var ls = childProcess.execFile(phantomJsPath, childArgs);
-  
+
       ls.stdout.on('data', function (data) {    // register one or more handlers
         console.log(data);
       });
-  
+
       ls.stderr.on('data', function (data) {
         console.log('phantom error  ---:> ' + data);
       });
-  
+
       ls.on('exit', function (code) {
         console.log('child process exited with code ' + code);
         callback();
       });
-      
+
     });
   }
 
