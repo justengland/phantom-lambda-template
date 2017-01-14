@@ -1,0 +1,169 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Pipeline CFN
+
+Parameters:
+    EnvironmentName:
+        Description: An environment name that will be prefixed to resource names
+        Type: String
+
+    GitHubToken:
+        NoEcho: 'true'
+        Type: String
+        Description: Secret. It might look something like 9b189a1654643522561f7b3ebd44a1531a4287af
+          OAuthToken with access to Repo. Go to https://github.com/settings/tokens
+
+    GitHubUser:
+        Type: String
+        Description: GitHub UserName
+    Repo:
+        Type: String
+        Description: GitHub Repo to pull from. Only the Name. not the URL
+    Branch:
+        Type: String
+        Description: Branch to use from Repo. Only the Name. not the URL
+
+Resources:
+    BuildRole:
+        Type: AWS::IAM::Role
+        Properties:
+          AssumeRolePolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+            - Effect: Allow
+              Principal:
+                Service:
+                - codebuild.amazonaws.com
+                - codepipeline.amazonaws.com
+                - cloudformation.amazonaws.com
+                - s3.amazonaws.com
+              Action:
+              - sts:AssumeRole
+          Path: "/"
+
+    BuildPolicy:
+        Type: AWS::IAM::Policy
+        Properties:
+          PolicyName: !Join ['-', [!Ref 'AWS::StackName', 'BuildPolicy']]
+          Roles:
+          - Ref: BuildRole
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+            - Effect: Allow
+              Action:
+              - logs:*
+              Resource:
+              - arn:aws:logs:*:*:*
+            - Effect: Allow
+              Action:
+              - codebuild:*
+              - iam:PassRole
+              - iam:GetRole
+              - iam:CreateRole
+              - iam:PutRolePolicy
+              - iam:DeleteRolePolicy
+              - iam:DeleteRole
+              - iam:AttachRolePolicy
+              - lambda:*
+              - cloudformation:*
+              - s3:*
+              Resource:
+              - "*"
+
+    PhantomPipeline:
+      DependsOn: BuildBucket
+      Type: AWS::CodePipeline::Pipeline
+      Properties:
+        Name: !Ref AWS::StackName
+        RoleArn: !GetAtt BuildRole.Arn
+        Stages:
+          - Name: Source
+            Actions:
+              - Name: SourceAction
+                ActionTypeId:
+                  Category: Source
+                  Owner: ThirdParty
+                  Version: 1
+                  Provider: GitHub
+                OutputArtifacts:
+                  - Name: PhantomApp
+
+                Configuration:
+                  Owner: !Ref GitHubUser
+                  Repo: !Ref Repo
+                  Branch: !Ref Branch
+                  OAuthToken: !Ref GitHubToken
+                RunOrder: 1
+
+          - Name: Deploy
+            Actions:
+              - Name: BuildSource
+                InputArtifacts:
+                  - Name: PhantomApp
+                ActionTypeId:
+                  Category: Build
+                  Owner: AWS
+                  Version: 1
+                  Provider: CodeBuild
+                Configuration:
+                  ProjectName: !Join ['-', [ !Ref 'AWS::StackName', 'build'] ]
+                OutputArtifacts:
+                  - Name: PhantomAppBuild
+                RunOrder: 1
+
+        ArtifactStore:
+          Type: S3
+          Location: !Ref BuildBucket
+
+    Build:
+      Type: AWS::CodeBuild::Project
+      Properties:
+        Name: !Join ['-', [ !Ref 'AWS::StackName', 'build'] ]
+        Description: A build for nodejs projects
+        ServiceRole: !GetAtt BuildRole.Arn
+        Artifacts:
+            Type: CODEPIPELINE
+            Name: Phantom
+        Environment:
+          Type: linuxContainer
+          ComputeType: BUILD_GENERAL1_SMALL
+          Image: aws/codebuild/nodejs:4.3.2
+          EnvironmentVariables:
+          - Name: BUILD_BUCKET
+            Value: !Ref BuildBucket
+        Source:
+          Type: CODEPIPELINE
+        TimeoutInMinutes: 10
+
+    # You may want to remove this and pass it as a paramter
+    # You do not need to have a unique s3 bucket per pipeline
+    # Just make sure you do a search and replace for !Ref BuildBucket
+    BuildBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        AccessControl: BucketOwnerRead
+
+    BuildBucketPolicy:
+      Type: AWS::S3::BucketPolicy
+      Properties:
+        PolicyDocument:
+          Id: MyPolicy
+          Version: '2012-10-17'
+          Statement:
+          - Sid: BuildAgentAccess
+            Action:
+            - s3:*
+            Effect: Allow
+            Resource: !Sub "arn:aws:s3:::${BuildBucket}/*"
+            Principal:
+              AWS: !GetAtt BuildRole.Arn
+        Bucket: !Ref BuildBucket
+
+Outputs:
+  BuildBucket:
+    Description: The bucket that holds all the builds
+    Value: !Ref BuildBucket
+
+  PhantomPipeline:
+    Description: The pipeline that runs the show
+    Value: !Ref PhantomPipeline

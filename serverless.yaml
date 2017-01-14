@@ -1,0 +1,17 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: First working Lambda Pipeline
+
+Resources:
+
+    PhantomLambda:
+        Type: AWS::Serverless::Function
+        Properties:
+            Handler: index.handler
+            Runtime: nodejs4.3
+            Description: Some sweet lambda action
+            CodeUri: .
+Outputs:
+  LambdaFunction:
+    Description: The bucket that holds all the builds
+    Value: !Ref PhantomLambda

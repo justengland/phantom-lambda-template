@@ -1,2 +1,5 @@
-console.log('Hello from phantom');
-phantom.exit();
+console.log('start phantom');
+setTimeout(function() {
+    console.log('Boo from phantom');
+    phantom.exit();
+}, 1000);
