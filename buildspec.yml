@@ -3,13 +3,15 @@ phases:
   install:
     commands:
       - npm install
-      - echo *******; aws iam get-user; echo *******
   pre_build:
     commands:
       - npm test
   build:
     commands:
-      - npm run package
+      - npm run deploy
+  post_build:
+    commands:
+      - npm run integration-test
 artifacts:
   type: zip
   files:

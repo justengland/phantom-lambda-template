@@ -95,7 +95,7 @@ Resources:
                   OAuthToken: !Ref GitHubToken
                 RunOrder: 1
 
-          - Name: Build
+          - Name: Deploy
             Actions:
               - Name: BuildSource
                 InputArtifacts:
@@ -110,25 +110,7 @@ Resources:
                 OutputArtifacts:
                   - Name: MyAppBuild
                 RunOrder: 1
-                    
-          - Name: Beta
-            Actions:
-              - Name: Deploy
-                InputArtifacts:
-                  - Name: MyAppBuild
-                ActionTypeId:
-                  Category: Deploy
-                  Owner: AWS
-                  Version: 1
-                  Provider: CloudFormation
-                Configuration:
-                  ActionMode: CHANGE_SET_REPLACE
-                  ChangeSetName: mychangeset
-                  RoleArn: !GetAtt BuildRole.Arn
-                  Capabilities: CAPABILITY_IAM
-                  StackName: aws-serverless
-                  TemplatePath: MyAppBuild::serverless-output.yaml
-                RunOrder: 1
+
         ArtifactStore:
           Type: S3
           Location: !Ref BuildBucket
