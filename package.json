@@ -1,34 +1,39 @@
 {
   "name": "phantom-lambda-template",
   "version": "0.0.2",
-  "description": "The bare minimum for a phantomjs app running on Amazon Lambda.",
+  "description": "A template for automated deployment of phantomjs on AWS Lambda",
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/rebelmail/node-lambda-template.git"
+    "url": "git@github.com:justengland/phantom-lambda-template.git"
   },
-  "author": "motdotla",
-  "license": "isc",
+  "author": "jengland",
+  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/rebelmail/node-lambda-template/issues"
+    "url": "https://github.com/justengland/phantom-lambda-template/issues"
   },
-  "homepage": "https://github.com/rebelmail/node-lambda-template",
-  "dependencies": {},
-  "devDependencies": {
-    "aws-sdk": "^2.7.8",
+  "homepage": "https://github.com/justengland/phantom-lambda-template",
+  "dependencies": {
     "mocha": "^3.2.0",
-    "node-lambda": "^0.8.11",
-    "phantomjs-prebuilt": "^2.1.13"
+    "phantomjs-prebuilt": "^2.1.14"
+  },
+  "devDependencies": {
+    "aws-sdk": "^2.7.8"
   },
   "scripts": {
-    "setup": "node-lambda setup",
-    "start": "node-lambda run",
-    "deploy": "node-lambda deploy",
+    "deploy-pipeline": "aws cloudformation deploy --template-file pipeline.yaml --stack-name \"aws-serverless-pipeline\" --capabilities CAPABILITY_IAM --profile personal --parameter-overrides EnvironmentName=TESTEST",
+    "package": "aws cloudformation package --template-file serverless.yaml --s3-bucket lambda-build-store --s3-prefix \"aws-serverless\" --output-template-file serverless-output.yaml",
+    "publish": "aws cloudformation deploy --template-file serverless-output.yaml --stack-name \"aws-serverless\" --capabilities CAPABILITY_IAM",
     "test": "mocha test/*"
   },
   "keywords": [
     "phantomjs",
     "aws",
-    "lambda"
+    "lambda",
+    "serverless",
+    "aws development tools",
+    "codepipeline",
+    "codebuild",
+    "phantomjs-prebuilt"
   ]
 }

@@ -1,0 +1,15 @@
+version: 0.1
+phases:
+  install:
+    commands:
+      - npm install
+  pre_build:
+    commands:
+      - npm test
+  build:
+    commands:
+      - npm run package
+artifacts:
+  type: zip
+  files:
+    - serverless-output.yaml
