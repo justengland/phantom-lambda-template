@@ -1,4 +1,4 @@
-console.log('ooooohhhhhhooooohhh');
+console.log('start phatom');
 setTimeout(function() {
     console.log('Boo from phantom');
     phantom.exit();
