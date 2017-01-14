@@ -26,7 +26,7 @@ $ npm test
 
 #### Deploy the pipeline
 ```
-npm run deploy-pipeline -- --parameter-overrides
+npm run deploy-pipeline -- --parameter-overrides \
            EnvironmentName=phantom \
            GitHubToken=< your token > \
            GitHubUser=justengland \
