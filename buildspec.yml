@@ -8,10 +8,7 @@ phases:
       - npm test
   build:
     commands:
-      - npm run deploy
-  post_build:
-    commands:
-      - npm run integration-test
+      - npm run package
 artifacts:
   type: zip
   files:
