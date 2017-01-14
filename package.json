@@ -1,6 +1,6 @@
 {
   "name": "phantom-lambda-template",
-  "version": "0.0.2",
+  "version": "1.0.0",
   "description": "A template for automated deployment of phantomjs on AWS Lambda",
   "main": "index.js",
   "repository": {
