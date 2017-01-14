@@ -22,6 +22,7 @@ https://github.com/settings/tokens
             Repo=phantom-lambda-template \
             Branch=master
     ```
+1. As you pipeline executes the first time, you will have to authorize the changeset.
 
 > **Note:** npm version 2.x or newer required to pass arguments to the scripts using `-- args`
 

@@ -63,6 +63,7 @@ Resources:
               - iam:PutRolePolicy
               - iam:DeleteRolePolicy
               - iam:DeleteRole
+              - iam:AttachRolePolicy
               - lambda:*
               - cloudformation:*
               - s3:*

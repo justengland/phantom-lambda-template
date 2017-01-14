@@ -17,4 +17,9 @@ node_modules
 .node_repl_history
 
 .idea/
+
+# Local deployment file used to pre gennerate a release, normally done on the build server.
 serverless-output.yaml
+
+# Copy and Paste scratch pad I use for account specific stuff
+account-notes.txt
