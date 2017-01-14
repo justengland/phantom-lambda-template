@@ -1,0 +1,18 @@
+{
+  "Version": "2012-10-17",
+  "Id": "MyPolicy",
+  "Statement": [
+    {
+      "Sid": "BuildAgentAccess",
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": [
+          "arn:aws:iam::743668767566:role/aws-serverless-pipeline-BuildRole-1A6S8KQG9GC9A",
+          "arn:aws:sts::743668767566-id:assumed-role/aws-serverless-pipeline-BuildRole-1A6S8KQG9GC9A*"
+          ]
+      },
+      "Action": "s3:*",
+      "Resource": "arn:aws:s3:::phantom-build-743668767566/*"
+    }
+  ]
+}

@@ -11,6 +11,7 @@ Parameters:
         Type: String
         Description: Secret. It might look something like 9b189a1654643522561f7b3ebd44a1531a4287af
           OAuthToken with access to Repo. Go to https://github.com/settings/tokens
+
     GitHubUser:
         Type: String
         Description: GitHub UserName
@@ -34,6 +35,7 @@ Resources:
                 - codebuild.amazonaws.com
                 - codepipeline.amazonaws.com
                 - cloudformation.amazonaws.com
+                - s3.amazonaws.com
               Action:
               - sts:AssumeRole
           Path: "/"
@@ -68,6 +70,7 @@ Resources:
               - "*"
 
     AppPipeline:
+      DependsOn: BuildBucket
       Type: AWS::CodePipeline::Pipeline
       Properties:
         Name: !Ref AWS::StackName
@@ -125,11 +128,9 @@ Resources:
                   StackName: aws-serverless
                   TemplatePath: MyAppBuild::serverless-output.yaml
                 RunOrder: 1
-
-            
         ArtifactStore:
           Type: S3
-          Location: 'codepipeline-us-west-2-198795324424'
+          Location: !Ref BuildBucket
 
     Build:
       Type: AWS::CodeBuild::Project
@@ -145,13 +146,33 @@ Resources:
           ComputeType: BUILD_GENERAL1_SMALL
           Image: aws/codebuild/nodejs:4.3.2
           EnvironmentVariables:
-          - Name: BUILD
-            Value: Yo-Yo
+          - Name: BUILD_BUCKET
+            Value: !Ref BuildBucket
         Source:
           Type: CODEPIPELINE
         TimeoutInMinutes: 10
-        Tags:
-          - Key: Key1
-            Value: Value1
-          - Key: Key2
-            Value: Value2
+
+    # You may want to remove this and pass it as a paramter
+    # You do not need to have a unique s3 bucket per pipeline
+    # Just make sure you do a search and replace for !Ref BuildBucket
+    BuildBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: !Join ['-', [ 'phantom-build', !Ref 'AWS::AccountId'] ]
+        AccessControl: BucketOwnerRead
+
+    BuildBucketPolicy:
+      Type: AWS::S3::BucketPolicy
+      Properties:
+        PolicyDocument:
+          Id: MyPolicy
+          Version: '2012-10-17'
+          Statement:
+          - Sid: BuildAgentAccess
+            Action:
+            - s3:*
+            Effect: Allow
+            Resource: !Sub "arn:aws:s3:::${BuildBucket}/*"
+            Principal:
+              AWS: !GetAtt BuildRole.Arn
+        Bucket: !Ref BuildBucket

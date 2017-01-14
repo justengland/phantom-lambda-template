@@ -3,6 +3,7 @@ phases:
   install:
     commands:
       - npm install
+      - echo *******; aws iam get-user; echo *******
   pre_build:
     commands:
       - npm test
