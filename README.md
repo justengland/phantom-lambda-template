@@ -9,21 +9,36 @@ Now with CodeBuild, this has become a trivial matter. So we are using AWS Develo
 [walk through: Automating Deployment of Lambda-based Applications](http://docs.aws.amazon.com/lambda/latest/dg/automating-deployment.html)
 I have done my best to automate the walk through, so its simple and repeatable.
 
-## Setup
+## Setup prerequisites
 1. Setup your AWS account and AWS CLI
 1. Fork the project
-1. Setup a personal access token with GitHub for [AWS CodePipeline](https://aws.amazon.com/codepipeline/) , you can skip this if you use [AWS CodeCommit](https://aws.amazon.com/codecommit/)
+1. Setup a personal access token with GitHub for [AWS CodePipeline](https://aws.amazon.com/codepipeline/) , you can skip this if you use [AWS CodeCommit](https://aws.amazon.com/codecommit/) but you will have to change the cloudformation.
 https://github.com/settings/tokens
-1. npm install
-1. npm test
-1. ```npm run deploy-pipeline -- --parameter-overrides
-			EnvironmentName=phantom \
-            GitHubToken=< your token > \
-            GitHubUser=justengland \
-            Repo=phantom-lambda-template \
-            Branch=master
-    ```
-1. As you pipeline executes the first time, you will have to authorize the changeset.
 
-> **Note:** npm version 2.x or newer required to pass arguments to the scripts using `-- args`
+#### Install local dependencies 
+```
+$ npm install
+```
 
+#### Test local install 
+```
+$ npm test
+```
+
+#### Deploy the pipeline
+```
+npm run deploy-pipeline -- --parameter-overrides
+           EnvironmentName=phantom \
+           GitHubToken=< your token > \
+           GitHubUser=justengland \
+           Repo=phantom-lambda-template \
+           Branch=master
+# **Note:** npm version 2.x or newer required to pass arguments to the scripts using `-- args`
+```
+#### View your work
+1. Checkout [AWS CloudFormation](https://console.aws.amazon.com/cloudformation/home)
+1. Watch as [AWS CodePipeline](https://console.aws.amazon.com/codepipeline/home) creates a new stack
+1. Once the stacks are finished test your [AWS Lambda](https://console.aws.amazon.com/lambda/home)
+
+## Still having trouble?
+Take a look at AWS Walkthrough - http://docs.aws.amazon.com/lambda/latest/dg/automating-deployment.html
