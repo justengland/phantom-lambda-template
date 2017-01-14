@@ -1,11 +1,10 @@
 # PhantomJS Lambda Template
 
-This is a reference implementation of running [PhantomJS](http://phantomjs.org/) on [AWS Lambda](http://aws.amazon.com/lambda/) with a pipeline.
+This is a reference implementation of running [PhantomJS](http://phantomjs.org/) on [AWS Lambda](http://aws.amazon.com/lambda/) deployed with [AWS CodePipeline](https://aws.amazon.com/codepipeline/).
 
 ## Background
-PhantomJS needs to be compiled for the OS you plan on running it. Until now this whole project has been painful because of that fact.
-This could be circumvented with a build server, which is a very personal decision and it was hard to commit to a build server for this little project.
-Now with CodeBuild, this has become a trivial matter. So we are using AWS Developer tools 100%, AWS created a great
+PhantomJS needs to be compiled for the OS you plan on running it and this can be painful because of that fact. This could be circumvented with a build server, which is a very personal decision and it was hard to commit to a build server for this little project.
+Now with [AWS CodeBuild](http://aws.amazon.com/codebuild/), this has become a trivial matter. So we are using AWS Developer tools 100%, AWS created a great
 [walk through: Automating Deployment of Lambda-based Applications](http://docs.aws.amazon.com/lambda/latest/dg/automating-deployment.html)
 I have done my best to automate the walk through, so its simple and repeatable.
 
@@ -39,6 +38,3 @@ npm run deploy-pipeline -- --parameter-overrides
 1. Checkout [AWS CloudFormation](https://console.aws.amazon.com/cloudformation/home)
 1. Watch as [AWS CodePipeline](https://console.aws.amazon.com/codepipeline/home) creates a new stack
 1. Once the stacks are finished test your [AWS Lambda](https://console.aws.amazon.com/lambda/home)
-
-## Still having trouble?
-Take a look at AWS Walkthrough - http://docs.aws.amazon.com/lambda/latest/dg/automating-deployment.html
