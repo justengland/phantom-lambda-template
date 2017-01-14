@@ -23,8 +23,6 @@ https://github.com/settings/tokens
             Branch=master
     ```
 
-git filter-branch --force --index-filter 'git rm --cached --ignore-unmatch README' --prune-empty --tag-name-filter cat -- --all
-
 
 
 
