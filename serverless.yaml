@@ -4,11 +4,14 @@ Description: First working Lambda Pipeline
 
 Resources:
 
-    SweetLambda:
+    PhantomLambda:
         Type: AWS::Serverless::Function
         Properties:
             Handler: index.handler
             Runtime: nodejs4.3
             Description: Some sweet lambda action
             CodeUri: .
-            # Role: !Ref LambdaExecutionRole
+Outputs:
+  LambdaFunction:
+    Description: The bucket that holds all the builds
+    Value: !Ref PhantomLambda
