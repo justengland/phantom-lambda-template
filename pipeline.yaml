@@ -70,7 +70,7 @@ Resources:
               Resource:
               - "*"
 
-    AppPipeline:
+    PhantomPipeline:
       DependsOn: BuildBucket
       Type: AWS::CodePipeline::Pipeline
       Properties:
@@ -86,7 +86,7 @@ Resources:
                   Version: 1
                   Provider: GitHub
                 OutputArtifacts:
-                  - Name: MyApp
+                  - Name: PhantomApp
 
                 Configuration:
                   Owner: !Ref GitHubUser
@@ -99,7 +99,7 @@ Resources:
             Actions:
               - Name: BuildSource
                 InputArtifacts:
-                  - Name: MyApp
+                  - Name: PhantomApp
                 ActionTypeId:
                   Category: Build
                   Owner: AWS
@@ -108,7 +108,7 @@ Resources:
                 Configuration:
                   ProjectName: !Join ['-', [ !Ref 'AWS::StackName', 'build'] ]
                 OutputArtifacts:
-                  - Name: MyAppBuild
+                  - Name: PhantomAppBuild
                 RunOrder: 1
 
         ArtifactStore:
@@ -141,7 +141,6 @@ Resources:
     BuildBucket:
       Type: AWS::S3::Bucket
       Properties:
-        BucketName: !Join ['-', [ 'phantom-build', !Ref 'AWS::AccountId'] ]
         AccessControl: BucketOwnerRead
 
     BuildBucketPolicy:
@@ -159,3 +158,12 @@ Resources:
             Principal:
               AWS: !GetAtt BuildRole.Arn
         Bucket: !Ref BuildBucket
+
+Outputs:
+  BuildBucket:
+    Description: The bucket that holds all the builds
+    Value: !Ref BuildBucket
+
+  PhantomPipeline:
+    Description: The pipeline that runs the show
+    Value: !Ref PhantomPipeline

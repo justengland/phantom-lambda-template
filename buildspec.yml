@@ -8,7 +8,7 @@ phases:
       - npm test
   build:
     commands:
-      - npm run package
+      - npm run deploy
 artifacts:
   type: zip
   files:

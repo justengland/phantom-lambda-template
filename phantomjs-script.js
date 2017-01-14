@@ -1,4 +1,4 @@
-console.log('start phatom');
+console.log('start phantom');
 setTimeout(function() {
     console.log('Boo from phantom');
     phantom.exit();

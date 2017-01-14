@@ -16,7 +16,8 @@ I have done my best to automate the walk through, so its simple and repeatable.
 https://github.com/settings/tokens
 1. npm install
 1. npm test
-1. ```npm run deploy-pipeline -- \
+1. ```npm run deploy-pipeline -- --parameter-overrides
+			EnvironmentName=phantom \
             GitHubToken=< your token > \
             GitHubUser=justengland \
             Repo=phantom-lambda-template \
