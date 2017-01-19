@@ -10,7 +10,7 @@ I have done my best to automate the walk through, so its simple and repeatable.
 
 ## Setup prerequisites
 1. Setup your AWS account and AWS CLI
-1. Fork the project
+1. Fork this project
 1. Setup a personal access token with GitHub for [AWS CodePipeline](https://aws.amazon.com/codepipeline/) , you can skip this if you use [AWS CodeCommit](https://aws.amazon.com/codecommit/) but you will have to change the cloudformation.
 https://github.com/settings/tokens
 
